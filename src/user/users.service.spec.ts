@@ -21,8 +21,6 @@ describe('UserService', () => {
         {
           provide: getModelToken(User.name),
           useValue: {
-            new: jest.fn().mockResolvedValue(mockUser),
-            constructor: jest.fn().mockResolvedValue(mockUser),
             create: jest.fn(),
           },
         },
@@ -38,18 +36,10 @@ describe('UserService', () => {
   });
 
   test('should create a new user', async () => {
-    jest.spyOn(model, 'create').mockImplementationOnce(() =>
-      Promise.resolve({
-        name: 'Justin',
-        email: 'jingyu120@gmail.com',
-        password: '123123',
-      }),
-    );
-    const newUser = await service.createUser({
-      name: 'Justin',
-      email: 'jingyu120@gmail.com',
-      password: '123123',
-    });
+    jest
+      .spyOn(model, 'create')
+      .mockImplementationOnce(() => Promise.resolve(mockUser));
+    const newUser = await service.createUser(mockUser);
     expect(newUser).toEqual(mockUser);
   });
 });
