@@ -10,7 +10,7 @@ describe('UserController', () => {
 
   beforeEach(async () => {
     fakeUserService = {
-      create: () =>
+      createUser: () =>
         Promise.resolve({
           name: 'Justin',
           email: 'jingyu120@gmail.com',
