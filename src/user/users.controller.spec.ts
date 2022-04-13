@@ -2,6 +2,15 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { User } from './schemas/user.schema';
+import { HttpStatus } from '@nestjs/common';
+import { createMock } from '@golevelup/ts-jest';
+import { Response } from 'express';
+
+const mockUser = {
+  name: 'Justin',
+  email: 'jingyu120@gmail.com',
+  password: '123123',
+};
 
 describe('UserController', () => {
   let controller: UsersController;
@@ -36,6 +45,18 @@ describe('UserController', () => {
   });
 
   test('test createUser', async () => {
-    // const newUser = await controller.createUser()
-  })
+    const mockResponseJson = {
+      json: jest.fn((x) => x),
+    };
+    const mockResponse = {
+      status: jest.fn((x) => mockResponseJson),
+    } as unknown as Response;
+    const newUser = await controller.createUser(
+      mockResponse as Response,
+      mockUser as User,
+    );
+    expect(mockResponse.status).toHaveBeenCalledTimes(1);
+    expect(mockResponse.status).toHaveBeenCalledWith(HttpStatus.OK);
+    expect(newUser).toEqual(mockUser);
+  });
 });
