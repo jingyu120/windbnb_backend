@@ -14,7 +14,6 @@ export class UsersController {
   @Post()
   async createUser(@Res() response, @Body() body: User) {
     const newUser = await this.userService.createUser(body);
-    console.log(newUser);
     return response.status(HttpStatus.OK).json(newUser);
   }
 }

@@ -2,14 +2,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { User } from './schemas/user.schema';
-import { userStub } from './stubs/user.stub';
 
 describe('UserController', () => {
   let controller: UsersController;
-  let fakeUserService: Partial<UsersService>;
+  let mockService: Partial<UsersService>;
 
   beforeEach(async () => {
-    fakeUserService = {
+    mockService = {
       createUser: () =>
         Promise.resolve({
           name: 'Justin',
@@ -23,14 +22,20 @@ describe('UserController', () => {
       providers: [
         {
           provide: UsersService,
-          useValue: fakeUserService,
+          useValue: mockService,
         },
       ],
     }).compile();
 
     controller = module.get<UsersController>(UsersController);
   });
-  test('testing', () => {
+
+  test('should be defined', () => {
     expect(controller).toBeDefined();
+    expect(mockService).toBeDefined();
   });
+
+  test('test createUser', async () => {
+    // const newUser = await controller.createUser()
+  })
 });

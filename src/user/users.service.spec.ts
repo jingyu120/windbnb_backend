@@ -12,23 +12,23 @@ const mockUser = {
 
 describe('UserService', () => {
   let service: UsersService;
-  let model: Model<User>;
+  let model: Partial<Model<User>>;
 
   beforeEach(async () => {
+    model = {
+      create: jest.fn(),
+    };
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UsersService,
         {
           provide: getModelToken(User.name),
-          useValue: {
-            create: jest.fn(),
-          },
+          useValue: model,
         },
       ],
     }).compile();
 
     service = module.get<UsersService>(UsersService);
-    model = module.get<Model<User>>(getModelToken(User.name));
   });
 
   test('should be defined', () => {
